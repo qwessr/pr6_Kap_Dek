@@ -9,10 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Classes\" />
     <Folder Include="Elements\" />
     <Folder Include="Images\" />
     <Folder Include="Pages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySqlConnector" Version="2.5.0" />
   </ItemGroup>
 
 </Project>

@@ -43,6 +43,7 @@ namespace RegIN
             // Указываем значение до которого происходит анияция
             StartAnimation.To = 0;
             // Указываем продолжительность
+            
             StartAnimation.Duration = TimeSpan.FromSeconds(0.6);
             // Указываем событие выполнения
             StartAnimation.Completed += delegate

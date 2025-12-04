@@ -323,6 +323,6 @@ namespace RegIN.Pages
         /// Метод открытия страницы регистрации
         /// </summary>
         private void OpenRegin(object sender, MouseButtonEventArgs e) =>
-            MainWindow.mainWindow.OpenPage(new Regin());
+            MainWindow.mainWindow.OpenPage(new RegIn());
     }
 }

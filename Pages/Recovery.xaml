@@ -32,7 +32,7 @@
                     Height="100"
                     Width="100"
                     Margin="32,0,32,0"
-                    Source="/RegIN.component/images/ic-user.png">
+                    Source="/Images/ic-user.png">
                     <Image.Clip>
                         <EllipseGeometry
                             RadiusX="50"

@@ -14,8 +14,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace RegIN.Pages
 {
@@ -31,7 +29,7 @@ namespace RegIN.Pages
             InitializeComponent();
             MainWindow.mainWindow.UserLogIn.HandlerCorrectLogin += CorrectLogin;
             MainWindow.mainWindow.UserLogIn.HandlerInCorrectLogin += IncorrectLogin;
-            Capture.HandlerCorrectCapture = CorrectCapture;
+            //Capture.HandlerCorrectCapture += CorrectCapture;
         }
         private void CorrectLogin()
         {
@@ -145,7 +143,7 @@ namespace RegIN.Pages
 
                     IUser.BeginAnimation(OpacityProperty, StartAnimation);
                     SetNotification("An email has been sent to your email.", Brushes.Black);
-                    MainWindow.mainWindow.UserLogIn.CreateNewPassword();
+                    MainWindow.mainWindow.UserLogIn.CrateNewPassword();
                 }
             }
         }
@@ -157,6 +155,11 @@ namespace RegIN.Pages
         private void OpenLogin(object sender, MouseButtonEventArgs e)
         {
             MainWindow.mainWindow.OpenPage(new Login());
+        }
+
+        private void SetLogin(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

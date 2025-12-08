@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
-using MySqlConnector;
+using MySql.Data.MySqlClient;
 
 namespace RegIN.Classes
 {
-    internal class WorkingDB
+    public class WorkingDB
     {
         /// <summary>
         /// Строка подключения к базе данных, указывается сервер, порт подключения, база данных, имя пользователя, пароль пользователя

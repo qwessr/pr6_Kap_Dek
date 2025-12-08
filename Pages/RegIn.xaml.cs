@@ -158,24 +158,24 @@ namespace RegIN.Pages
         {
             if (FileDialogImage.ShowDialog() == true)
             {
-                using (Aspose.Imaging.Image Image = Image.Load(FileDialogImage.FileName))
+                using (Aspose.Imaging.Image image = Aspose.Imaging.Image.Load(FileDialogImage.FileName))
                 {
                     int NewWidth = 0;
                     int NewHeight = 0;
 
-                    if (Image.Width > Image.Height)
+                    if (image.Width > image.Height)
                     {
-                        NewWidth = (int)(Image.Width * (256f / Image.Height));
+                        NewWidth = (int)(image.Width * (256f / image.Height));
                         NewHeight = 256;
                     }
                     else
                     {
                         NewWidth = 256;
-                        NewHeight = (int)(Image.Height * (256f / Image.Width));
+                        NewHeight = (int)(image.Height * (256f / image.Width));
                     }
 
-                    Image.ResizeLayout(NewWidth, NewHeight);
-                    Image.Save("IUser.jpg");
+                    image.Resize(NewWidth, NewHeight);
+                    image.Save("IUser.jpg");
                 }
 
                 using (Aspose.Imaging.RasterImage rasterImage = (Aspose.Imaging.RasterImage)Aspose.Imaging.Image.Load("IUser.jpg"))

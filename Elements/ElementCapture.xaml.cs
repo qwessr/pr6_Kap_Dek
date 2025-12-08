@@ -31,7 +31,7 @@ namespace RegIN.Elements
         /// <summary>
         /// Высота капчи
         /// </summary>
-        int ElementHieght = 50;
+        int ElementHeight = 50;
 
         public ElementCapture()
         {
@@ -82,7 +82,7 @@ namespace RegIN.Elements
                     // Указываем цвет шрифта (случайный)
                     Foreground = new SolidColorBrush(Color.FromArgb(100, (byte)ThisRandom.Next(0, 255), (byte)ThisRandom.Next(0, 255), (byte)ThisRandom.Next(0, 255))),
                     // Задаём отступы элемента (случайные)
-                    Margin = new Thickness(ThisRandom.Next(0, ElementWidth - 20), ThisRandom.Next(0, ElementHieght - 20), 0, 0)
+                    Margin = new Thickness(ThisRandom.Next(0, ElementWidth - 20), ThisRandom.Next(0, ElementHeight - 20), 0, 0)
                 };
                 // Добавляем новый элемент в Grid на сцене
                 Capture.Children.Add(LBackground);

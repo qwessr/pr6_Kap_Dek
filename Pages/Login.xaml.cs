@@ -153,7 +153,7 @@ namespace RegIN.Pages
         public void CorrectCapture()
         {
             // Отключаем элемент капчи
-            Capture.IsEnabled = false;
+            IsEnabled = false;
             // Запоминаем что ввод капчи осуществлён
             IsCapture = true;
         }
@@ -234,7 +234,7 @@ namespace RegIN.Pages
                 // Отключаем окно ввода пароля
                 TbPassword.IsEnabled = false;
                 // Отключаем окно ввода капчи
-                Capture.IsEnabled = false;
+                IsEnabled = false;
             });
             // Запускаем цикл в 180 шагов | 180/60 = 3 минуты
             for (int i = 0; i < 180; i++)
@@ -272,7 +272,7 @@ namespace RegIN.Pages
                 // Включаем ввод пароля
                 TbPassword.IsEnabled = true;
                 // Включаем капчу
-                Capture.IsEnabled = true;
+                IsEnabled = true;
                 // Вызываем генерацию новой капчи
                 Capture.CreateCapture();
                 // Запоминаем о том что капча не введена
@@ -324,5 +324,20 @@ namespace RegIN.Pages
         /// </summary>
         private void OpenRegin(object sender, MouseButtonEventArgs e) =>
             MainWindow.mainWindow.OpenPage(new RegIn());
+
+        private void SetLogin(object sender, RoutedEventArgs e)
+        {
+            // При нажатии на кнопку Enter
+            if (e.Key == Key.Enter)
+            {
+                // Вызываем метод получения данных пользователя по логину
+                MainWindow.mainWindow.UserLogIn.GetUserLogin(TbLogin.Text);
+
+                // Если пароль пользователя введён
+                if (TbPassword.Password.Length > 0)
+                    // Вызываем метод ввода пароля
+                    SetPassword();
+            }
+        }
     }
 }

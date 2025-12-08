@@ -59,10 +59,10 @@ namespace RegIN
                 // Указываем продолжительность
                 EndAnimation.Duration = TimeSpan.FromSeconds(1.2);
                 // Запускаем анимацию прозрачности для фрейма на сцене
-                frame.BeginAnimation(Frame.OpacityProperty, EndAnimation);
+                frame.BeginAnimation(OpacityProperty, EndAnimation);
             };
             // Запускаем анимацию прозрачности для фрейма на сцене
-            frame.BeginAnimation(Frame.OpacityProperty, StartAnimation);
+            frame.BeginAnimation(OpacityProperty, StartAnimation);
         }
     }
 }

@@ -60,10 +60,10 @@
                        FontSize="12"/>
                 <Button x:Name="BSendMessage"
                         IsEnabled="False"
-                        Width="200px"
+                        Width="200"
                         Height="25"
                         Content="Send Message"
-                        Margin="46,235,54,43.2"
+                        Margin="46,235,54,43"
                         Click="SendMail"/>
                 <Label Content="Back"
                        Margin="10,273,10,0"

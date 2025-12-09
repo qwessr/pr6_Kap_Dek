@@ -1,0 +1,82 @@
+﻿<Page x:Class="RegIN.Pages.Pin"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="13"
+      TextOptions.TextFormattingMode="Ideal"
+      TextOptions.TextRenderingMode="Auto"
+      Background="{DynamicResource MaterialDesignPaper}"
+      FontFamily="{DynamicResource MaterialDesignFont}"
+      Title="Pin">
+
+    <Grid>
+        <materialDesign:Card
+        Height="304"
+        VerticalAlignment="Center"
+        HorizontalAlignment="Center"
+        Width="307">
+            <Grid>
+                <Image
+                x:Name="IUser"
+                HorizontalAlignment="Left"
+                Height="90"
+                Margin="102,25,0,0"
+                VerticalAlignment="Top"
+                Width="92"
+                Source="/Images/pin-code.png">
+
+                    <Image.Clip>
+                        <EllipseGeometry
+                    RadiusX="50"
+                    RadiusY="50"
+                    Center="50, 50"/>
+                    </Image.Clip>
+                </Image>
+                <Label
+                Name="tbInfo"
+                Margin="10,137,10,0"
+                HorizontalContentAlignment="Center"
+                Content="Set a PIN code for quick entry."
+                VerticalAlignment="Top"/>
+                <Label
+                Content="Enter code:"
+                Margin="10,161,10,0"
+                VerticalAlignment="Top"/>
+                <TextBox
+                x:Name="TbPin"
+                Height="23" 
+                Margin="10,185,10,0"
+                TextWrapping="Wrap"
+                Text=""
+                VerticalAlignment="Top"
+                KeyUp="SetCode"/>
+                <Label
+                x:Name="LTimer"
+                Content=""
+                Margin="10,213,10,0"
+                VerticalAlignment="Top"
+                Foreground="#FF673AB7"
+                FontSize="12"/>
+                <Button x:Name="BSendMessage"
+                    Width="200px"
+                    Height="25px"
+                    Content="Set PIN"
+                    Margin="46, 235, 54, 43.2"
+                    Click="SetPin"/>
+                <Label
+                Content="Miss"
+                Margin="10,273,10,0"
+                VerticalAlignment="Top"
+                Foreground="#FF673AB7"
+                FontSize="10"
+                MouseDown="Miss"/>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
+</Page>

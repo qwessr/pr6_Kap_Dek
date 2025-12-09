@@ -61,7 +61,7 @@
                     TextWrapping="Wrap"
                     Text=""
                     KeyUp="SetLogin"
-                    LostFocus="SetLogin"/>
+                    LostFocus="SetLogin" />
 
                 <uc:ElementCapture
                     x:Name="Capture"

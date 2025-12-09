@@ -6,114 +6,80 @@ namespace RegIN.Classes
 {
     public class User
     {
-        /// <summary>
-        /// Код пользователя
-        /// </summary>
         public int Id { get; set; }
-        /// <summary>
-        /// Логин пользователя
-        /// </summary>
-        public string Login { get; set; }
-        /// <summary>
-        /// Пароль пользователя
-        /// </summary>
-        public string Password { get; set; }
-        /// <summary>
-        /// Имя пользователя
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// Изображение пользователя
-        /// </summary>
+        public string Login { get; set; } = ""; 
+        public string Password { get; set; } = "";
+        public string Name { get; set; } = "";
         public byte[] Image = new byte[0];
-        /// <summary>
-        /// Дата и время обновления пользователя
-        /// </summary>
+        public string Pincode { get; set; } = "";
         public DateTime DateUpdate { get; set; }
-        /// <summary>
-        /// Дата и время создания пользователя
-        /// </summary>
         public DateTime DateCreate { get; set; }
-        /// <summary>
-        /// Событие успешной авторизации
-        /// </summary>
         public CorrectLogin HandlerCorrectLogin;
-        /// <summary>
-        /// Событие не успешной авторизации
-        /// </summary>
         public InCorrectLogin HandlerInCorrectLogin;
-
-        /// <summary>
-        /// Делегат успешной авторизации
-        /// </summary>
         public delegate void CorrectLogin();
-        /// <summary>
-        /// Делегат не успешной авторизации
-        /// </summary>
         public delegate void InCorrectLogin();
 
-        /// <summary>
-        /// Получение данных пользователя по логину
-        /// </summary>
-        /// <param name="Login">Логин пользователя</param>
+        public bool HasPin => !string.IsNullOrEmpty(Pincode);
+
         public void GetUserLogin(string Login)
         {
-            // Устанавливаем первоначальные данные
             this.Id = -1;
             this.Login = String.Empty;
             this.Password = String.Empty;
             this.Name = String.Empty;
             this.Image = new byte[0];
-            // Открываем соединение с базой данных
+            this.Pincode = String.Empty; 
             MySqlConnection mySqlConnection = WorkingDB.OpenConnection();
-            // Если соединение с базой данных успешно открыто
+
             if (WorkingDB.OpenConnection(mySqlConnection))
             {
-                // Выполняем запрос получения пользователя по логину
                 MySqlDataReader userQuery = WorkingDB.Query($"SELECT * FROM `users` WHERE `Login` = '{Login}'", mySqlConnection);
-                // проверяем что существуют данные для чтения
+
                 if (userQuery.HasRows)
                 {
-                    // Читаем пришедшие данные
                     userQuery.Read();
-                    // Записываем код пользователя
                     this.Id = userQuery.GetInt32(0);
-                    // Записываем логин пользователя
                     this.Login = userQuery.GetString(1);
-                    // Записываем пароль пользователя
                     this.Password = userQuery.GetString(2);
-                    // Записываем имя пользователя
                     this.Name = userQuery.GetString(3);
-                    // Проверяем что изображение установлено
+
                     if (!userQuery.IsDBNull(4))
                     {
-                        // Задаём размер массива
                         this.Image = new byte[64 * 1024];
-                        // Записываем изображение пользователя
                         userQuery.GetBytes(4, 0, Image, 0, Image.Length);
                     }
-                    // Записываем дату обновления
+
+                    try
+                    {
+                        if (!userQuery.IsDBNull(7))
+                        {
+                            string pinValue = userQuery.GetString(7);
+                            this.Pincode = pinValue ?? ""; 
+                        }
+                    }
+                    catch
+                    {
+                        this.Pincode = ""; 
+                    }
+
                     this.DateUpdate = userQuery.GetDateTime(5);
-                    // Записываем дату создания
-                    this.DateUpdate = userQuery.GetDateTime(6);
-                    // Вызываем событие успешной авторизации
-                    HandlerCorrectLogin.Invoke();
+                    this.DateCreate = userQuery.GetDateTime(6); 
+
+                    HandlerCorrectLogin?.Invoke();
                 }
                 else
-                    // Если данные для чтения не существуют, вызываем событие не успешной авторизации
-                    HandlerInCorrectLogin.Invoke();
+                {
+                    HandlerInCorrectLogin?.Invoke();
+                }
             }
             else
-                // Если соединение открыть не удаётся, вызываем событие не успешной авторизации
-                HandlerInCorrectLogin.Invoke();
+            {
+                HandlerInCorrectLogin?.Invoke();
+            }
 
-            // Закрываем соединение с базой данных
             WorkingDB.CloseConnection(mySqlConnection);
         }
 
-        /// <summary>
-        /// Функция сохранения пользователя
-        /// </summary>
         public void SetUser()
         {
             // Открываем соединение с базой данных
@@ -141,29 +107,43 @@ namespace RegIN.Classes
             // Закрываем подключение к базе данных
             WorkingDB.CloseConnection(mySqlConnection);
         }
+        public void SetPin(string pin)
+        {
+            // ПРОВЕРКА НА NULL
+            if (string.IsNullOrEmpty(pin))
+            {
+                MessageBox.Show("PIN не может быть пустым");
+                return;
+            }
+
+            MySqlConnection mySqlConnection = WorkingDB.OpenConnection();
+
+            if (WorkingDB.OpenConnection(mySqlConnection))
+            {
+                WorkingDB.Query($"UPDATE `users` SET `Pincode` = '{pin}' WHERE `Login` = '{this.Login}'", mySqlConnection);
+            }
+            WorkingDB.CloseConnection(mySqlConnection);
+
+            // ОБНОВЛЯЕМ СВОЙСТВО В ОБЪЕКТЕ
+            this.Pincode = pin;
+
+            SendMail.SendMessage($"PIN code has been set for your account: {pin}", this.Login);
+        }
 
         /// <summary>
         /// Функция создания нового пароля
         /// </summary>
         public void CrateNewPassword()
         {
-            // Если наш логин не равне пустому значению
-            // А это значит что наш пользователь существует
             if (Login != String.Empty)
             {
-                // Вызываем функцию генерации пароля
                 Password = GeneratePass();
-                // Открываем подключение к базе данных
                 MySqlConnection mySqlConnection = WorkingDB.OpenConnection();
-                // Проверяем что подключение действительно открыто
                 if (WorkingDB.OpenConnection(mySqlConnection))
                 {
-                    // Выполняем запрос, обновляя пароль у выбранного пользователя
                     WorkingDB.Query($"UPDATE `users` SET `Password`='{this.Password}' WHERE `Login` = '{this.Login}'", mySqlConnection);
                 }
-                // Закрываем подключение к базе данных
                 WorkingDB.CloseConnection(mySqlConnection);
-                // Отправляем сообщение на почту, о том что пароль изменён
                 SendMail.SendMessage($"Your account password has been changed.\nNew password: {this.Password}", this.Login);
             }
         }

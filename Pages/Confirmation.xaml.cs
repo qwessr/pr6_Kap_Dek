@@ -70,11 +70,13 @@ namespace RegIN.Pages
             // Запускаем цикл в 60 шагов
             for (int i = 0; i < 60; i++)
             {
+               
                 // Выполняем вне потока
                 Dispatcher.Invoke(() =>
                 {
                     // Изменяем данные на текстовом поле
                     LTimer.Content = $"A second message can be sent after {(60 - i)} seconds";
+                    
                 });
                 // Ждём 1 секунду
                 Thread.Sleep(1000);
@@ -121,21 +123,17 @@ namespace RegIN.Pages
         /// </summary>
         void SetCode()
         {
-            // Если текст в текстовом поле совпадает с кодом отправленным на почту
-            // Если текстовое поле активировано
             if (TbCode.Text == Code.ToString() && TbCode.IsEnabled == true)
             {
-                // Выключаем активацию поля
                 TbCode.IsEnabled = false;
-                // Если тип подтверждения является авторизацией
                 if (ThisTypeConfirmation == TypeConfirmation.Login)
-                    // Выводим сообщение о том что пользователь авторизовался
+                {
                     MessageBox.Show("Авторизация пользователя успешно подтверждена.");
+                    MainWindow.mainWindow.OpenPage(new Pin(false));
+                }
                 else
                 {
-                    // Если тип подтверждения является регистрацией
                     MainWindow.mainWindow.UserLogIn.SetUser();
-                    // Выводим сообщение о том что пользователь зарегистрировался
                     MessageBox.Show("Регистрация пользователя успешно подтверждена.");
                 }
             }

@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using RegIN.Classes;
+using RegIN.Elements;
 
 namespace RegIN.Pages
 {
@@ -93,7 +94,7 @@ namespace RegIN.Pages
 
         public void CorrectCapture()
         {
-            IsEnabled = false;
+            Capture.IsEnabled = false;
             IsCapture = true;
         }
         private void SetPassword(object sender, KeyEventArgs e)
@@ -106,31 +107,27 @@ namespace RegIN.Pages
         {
             if (MainWindow.mainWindow.UserLogIn.Password != String.Empty)
             {
-                if (IsCapture)
+                if (IsCapture == false)
                 {
-                    if (MainWindow.mainWindow.UserLogIn.Password == TbPassword.Password)
-                    {
-                        MainWindow.mainWindow.OpenPage(new Confirmation(Confirmation.TypeConfirmation.Login));
-                    }
-                    else
-                    {
-                        if (CountSetPassword > 0)
-                        {
-                            SetNotification($"Password is incorrect, {CountSetPassword} attempts left", Brushes.Red);
-                            CountSetPassword--;
-                        }
-                        else
-                        {
-                            Thread TBlockAutorization = new Thread(BlockAutorization);
-                            TBlockAutorization.Start();
-                            SendMail.SendMessage("An attempt was made to log into your account.", MainWindow.mainWindow.UserLogIn.Login);
-                        }
-                    }
+                    SetNotification("Enter capture", Brushes.Red);
+                    return;
                 }
-                else
+
+                if (MainWindow.mainWindow.UserLogIn.Password == TbPassword.Password)
                 {
-                    SetNotification($"Enter capture", Brushes.Red);
+                    MainWindow.mainWindow.OpenPage(new Pages.Confirmation(Confirmation.TypeConfirmation.Login));
+                    return;
                 }
+                if (CountSetPassword > 0)
+                {
+                    SetNotification($"Password is incorrect, {CountSetPassword} attempts left", Brushes.Red);
+                    CountSetPassword--;
+                    return;
+                }
+                Thread TBlockAutorization = new Thread(BlockAutorization);
+                TBlockAutorization.Start();
+
+                SendMail.SendMessage("An attempt was made to log into your account.", MainWindow.mainWindow.UserLogIn.Login);
             }
         }
         public void BlockAutorization()
@@ -178,7 +175,7 @@ namespace RegIN.Pages
                 // Включаем ввод пароля
                 TbPassword.IsEnabled = true;
                 // Включаем капчу
-                IsEnabled = true;
+                Capture.IsEnabled = true;
                 // Вызываем генерацию новой капчи
                 Capture.CreateCapture();
                 // Запоминаем о том что капча не введена

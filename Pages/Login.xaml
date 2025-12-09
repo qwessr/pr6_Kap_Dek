@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:RegIN.Pages"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:uc="clr-namespace:RegIN.Elements"
+      
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Login"
@@ -59,14 +60,13 @@
                     KeyUp="SetLogin"
                     LostFocus="SetLogin"/>
 
-                <!-- Кнопка -->
-                <!--<uc:ElementCapture
+                <uc:ElementCapture
                     x:Name="Capture"
                     HorizontalAlignment="Center"
                     Width="280"
                     Margin="10,213,10,0"
                     Height="100"
-                    VerticalAlignment="Top"/>-->
+                    VerticalAlignment="Top"/>
 
                 <Label
                     Content="Enter password:"

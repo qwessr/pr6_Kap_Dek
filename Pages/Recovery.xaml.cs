@@ -29,7 +29,7 @@ namespace RegIN.Pages
             InitializeComponent();
             MainWindow.mainWindow.UserLogIn.HandlerCorrectLogin += CorrectLogin;
             MainWindow.mainWindow.UserLogIn.HandlerInCorrectLogin += IncorrectLogin;
-            //Capture.HandlerCorrectCapture += CorrectCapture;
+            Capture.HandlerCorrectCapture += CorrectCapture;
         }
         private void CorrectLogin()
         {
@@ -107,7 +107,7 @@ namespace RegIN.Pages
         }
         private void CorrectCapture()
         {
-            IsEnabled = false;
+            Capture.IsEnabled = false;
             IsCapture = true;
             SendNewPassword();
         }

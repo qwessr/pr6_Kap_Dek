@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -56,7 +57,7 @@ namespace RegIN.Pages
 
         public void SetLogin()
         {
-            Regex regex = new Regex(@"([a-zA-Z0-9._-]{4,})@[a-zA-Z0-9._-]{2,}.[a-zA-Z0-9._-]{2,})");
+            Regex regex = new Regex(@"([a-zA-Z0-9._-]{4,})@[a-zA-Z0-9._-]{2,}.[a-zA-Z0-9._-]{2,}");
             BCorrectLogin = regex.IsMatch(TbLogin.Text);
 
             if (regex.IsMatch(TbLogin.Text) == true)
@@ -138,16 +139,37 @@ namespace RegIN.Pages
             if (!BCorrectConfirmPassword)
                 return;
 
+            // Заполняем объект User данными из UI
             MainWindow.mainWindow.UserLogIn.Login = TbLogin.Text;
             MainWindow.mainWindow.UserLogIn.Password = PbPassword.Password;
             MainWindow.mainWindow.UserLogIn.Name = TbName.Text;
 
             if (BSetImages)
                 MainWindow.mainWindow.UserLogIn.Image = File.ReadAllBytes(Directory.GetCurrentDirectory() + @"\IUser.jpg");
+            else
+                MainWindow.mainWindow.UserLogIn.Image = new byte[0]; // Убедимся, что Image не null
 
             MainWindow.mainWindow.UserLogIn.DateUpdate = DateTime.Now;
             MainWindow.mainWindow.UserLogIn.DateCreate = DateTime.Now;
 
+            // --- НОВЫЙ КОД: Вызов сохранения в БД ---
+            try
+            {
+                // Вызываем метод сохранения пользователя в БД
+                MainWindow.mainWindow.UserLogIn.SetUser();
+                // Сообщаем пользователю об успехе (опционально)
+                // MessageBox.Show("Данные пользователя успешно сохранены в базу данных.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                // Обрабатываем возможные ошибки при сохранении
+                MessageBox.Show($"Ошибка при сохранении данных пользователя в базу данных: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                // В зависимости от логики, можно не переходить на страницу подтверждения при ошибке
+                // return; // Если нужно остановить выполнение
+            }
+            // --- КОНЕЦ НОВОГО КОДА ---
+
+            // Переходим на страницу подтверждения
             MainWindow.mainWindow.OpenPage(new Confirmation(Confirmation.TypeConfirmation.Regin));
         }
         private void SetName(object sender,TextCompositionEventArgs e)

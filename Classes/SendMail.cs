@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Mail;
 
 namespace RegIN.Classes
@@ -12,18 +13,13 @@ namespace RegIN.Classes
         /// <param name="To">Почта на которую отправляется сообщение</param>
         public static void SendMessage(string Message, string To)
         {
-            // Создаём SMTP клиент, в качестве хоста указываем яндекс
-            var smtpClient = new SmtpClient("smtp.yandex.ru")
+            var smptClient = new SmtpClient("smtp.yandex.ru")
             {
-                // Указываем порт по которому передаём сообщение
                 Port = 587,
-                // Указываем почту, с которой будет отправляться сообщение, и пароль от этой почты
-                Credentials = new NetworkCredential("yandex@yandex.ru", "password"),
-                // Включаем поддержку SSL
+                Credentials = new NetworkCredential("V0vanch4@yandex.ru", "yaldnjqwwwfwrpwp"),
                 EnableSsl = true,
             };
-                // Вызываем метод Send, который отправляет письмо на указанный адрес
-        smtpClient.Send("landaxer@yandex.ru", To, "Проект RegIN", Message);
+            smptClient.Send("V0vanch4@yandex.ru", To, "Проект RegIn", Message);
         }
     }
-}
+} 

@@ -9,6 +9,7 @@
       d:DesignWidth="800"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       Title="Recovery"
+       xmlns:uc="clr-namespace:RegIN.Elements"
       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
       TextElement.FontWeight="Regular"
       TextElement.FontSize="13"
@@ -62,13 +63,13 @@
                     KeyUp="SetLogin"
                     LostFocus="SetLogin"/>
 
-                <!--<uc:ElementCapture
+                <uc:ElementCapture
                     x:Name="Capture"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Width="208"
                     Height="100"
-                    Margin="10,213,10,0"/>-->
+                    Margin="10,213,10,0"/>
 
                 <Label
                     Content="Back"
